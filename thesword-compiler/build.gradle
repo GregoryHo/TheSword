@@ -1,0 +1,14 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = configs.sourceCompatibility
+targetCompatibility = configs.targetCompatibility
+
+dependencies {
+  implementation project(':thesword-annotations')
+  implementation deps.google.autoCommon
+  compileOnly deps.google.autoService
+  api deps.square.javaPoet
+  testImplementation 'junit:junit:4.12'
+}
+
+

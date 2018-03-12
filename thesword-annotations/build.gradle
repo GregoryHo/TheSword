@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = configs.sourceCompatibility
+targetCompatibility = configs.targetCompatibility
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.android.annotations
+  testImplementation 'junit:junit:4.12'
+}
