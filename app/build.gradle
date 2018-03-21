@@ -21,6 +21,7 @@ android {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation deps.android.appCompat
+  implementation deps.google.gson
   implementation project(':thesword-annotations')
   annotationProcessor project(':thesword-compiler')
   testImplementation 'junit:junit:4.12'

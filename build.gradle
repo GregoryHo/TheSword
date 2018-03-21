@@ -10,12 +10,14 @@ buildscript {
   ext.versions = [supportLibraryVersion: '26.1.0',
                   autoCommonVersion    : '0.10',
                   autoServiceVersion   : '1.0-rc4',
-                  javaPoetVersion      : '1.10.0']
+                  javaPoetVersion      : '1.10.0',
+                  gsonVersion          : '2.8.2']
   ext.deps =
-      [android: [appCompat: "com.android.support:appcompat-v7:${versions.supportLibraryVersion}",
+      [android: [appCompat  : "com.android.support:appcompat-v7:${versions.supportLibraryVersion}",
                  annotations: "com.android.support:support-annotations:${versions.supportLibraryVersion}"],
        google : [autoCommon : "com.google.auto:auto-common:${versions.autoCommonVersion}",
-                 autoService: "com.google.auto.service:auto-service:${versions.autoServiceVersion}"],
+                 autoService: "com.google.auto.service:auto-service:${versions.autoServiceVersion}",
+                 gson       : "com.google.code.gson:gson:${versions.gsonVersion}"],
        square : [javaPoet: "com.squareup:javapoet:${versions.javaPoetVersion}"]]
   repositories {
     jcenter()
