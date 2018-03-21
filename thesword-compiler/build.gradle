@@ -5,6 +5,7 @@ targetCompatibility = configs.targetCompatibility
 
 dependencies {
   implementation project(':thesword-annotations')
+  implementation deps.android.annotations
   implementation deps.google.autoCommon
   compileOnly deps.google.autoService
   api deps.square.javaPoet
