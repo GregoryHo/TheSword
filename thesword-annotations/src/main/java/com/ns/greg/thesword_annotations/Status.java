@@ -7,10 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * @author gregho
- * @since 2018/3/12
+ * @since 2018/3/21
  */
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.CLASS)
-public @interface Draw {
+@Retention(RetentionPolicy.CLASS) @Target(ElementType.TYPE) public @interface Status {
+
+  String[] childBeans() default {
+      "state", "time", "job"
+  };
 }
