@@ -79,13 +79,18 @@ import javax.lang.model.util.Elements;
 
       TypeElement typeElement = (TypeElement) element;
       Annotation annotation = typeElement.getAnnotation(annotationClass);
-      String[] beans = BeanSetFactory.getChildBeans(annotation);
-      if (beans == null || beans.length == 0) {
-        // if beans is null or empty
+      BaseFactory baseFactory = BeanSetFactory.getFactory(annotation);
+      if (baseFactory == null) {
+        // no such factory for this annotation
         continue;
       }
 
-      BeanSetFactory beanSetFactory = BeanSetFactory.getFactory(annotation);
+      String[] beans = baseFactory.getChildBeans();
+      if (beans.length == 0) {
+        // no needs process anymore
+        continue;
+      }
+
       String className = typeElement.getSimpleName().toString();
       String packageName = elementUtils.getPackageOf(typeElement).getQualifiedName().toString();
       // Class
@@ -93,10 +98,9 @@ import javax.lang.model.util.Elements;
           TypeSpec.classBuilder(className + "_" + annotationClass.getSimpleName() + DRAW)
               .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
       for (String bean : beans) {
-        BeanSet beanSet = beanSetFactory.parseBean(bean);
+        BeanSet beanSet = baseFactory.parseBean(bean);
         if (beanSet == null) {
-          // if the bean isn't able to parsed
-          continue;
+          throw new IllegalArgumentException("No such bean [" + bean + "] defined.");
         }
 
         // Filed
@@ -128,7 +132,6 @@ import javax.lang.model.util.Elements;
               .build());
         }
       }
-
       // Write to file
       try {
         JavaFile.builder(packageName, classBuilder.build()).build().writeTo(filter);

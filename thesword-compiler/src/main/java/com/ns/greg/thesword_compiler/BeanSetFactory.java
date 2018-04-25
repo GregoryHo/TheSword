@@ -11,61 +11,15 @@ import java.lang.annotation.Annotation;
  */
 class BeanSetFactory {
 
-  private Annotation annotation;
-
-  private BeanSetFactory(Annotation annotation) {
-    this.annotation = annotation;
+  private BeanSetFactory() {
+    throw new AssertionError("No instance.");
   }
 
-  static BeanSetFactory getFactory(Annotation annotation) {
-    return new BeanSetFactory(annotation);
-  }
-
-  static String[] getChildBeans(Annotation annotation) {
+  @Nullable static BaseFactory getFactory(Annotation annotation) {
     if (annotation instanceof Info) {
-      return ((Info) annotation).childBeans();
+      return new InfoFactory(annotation);
     } else if (annotation instanceof Status) {
-      return ((Status) annotation).childBeans();
-    }
-
-    return null;
-  }
-
-  BeanSet parseBean(String bean) {
-    if (annotation instanceof Info) {
-      return parseInfoBean(bean);
-    } else if (annotation instanceof Status) {
-      return parseStatusBean(bean);
-    }
-
-    return null;
-  }
-
-  @Nullable private BeanSet parseInfoBean(String bean) {
-    switch (bean) {
-      case "name":
-        return new BeanSet("userName", String.class, MethodType.GET_AND_SET);
-
-      case "sex":
-        return new BeanSet("gender", String.class, MethodType.GET_AND_SET);
-
-      case "age":
-        return new BeanSet("age", String.class, MethodType.GET_AND_SET);
-    }
-
-    return null;
-  }
-
-  @Nullable private BeanSet parseStatusBean(String bean) {
-    switch (bean) {
-      case "state":
-        return new BeanSet("userState", String.class, MethodType.GET);
-
-      case "job":
-        return new BeanSet("job", String.class, MethodType.GET_AND_SET);
-
-      case "time":
-        return new BeanSet("time", String.class, MethodType.GET);
+      return new StatusFactory(annotation);
     }
 
     return null;
